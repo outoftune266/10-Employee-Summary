@@ -30,7 +30,9 @@ let managerQuestions = [{
     message: "What is your office number?",
     name: "officeNumber"
 }];
+
 let moreEmployees = { type: "list", message: "What other employees do you have?", choices: ["Engineer", "Intern", new inquirer.Separator(), "I have no more employees"], name: "nextEmployee" };
+
 let engineerQuestions = [{
     type: "input",
     message: "What is your Engineer's name?",
@@ -71,19 +73,9 @@ let internQuestions = [{
     message: "What school do they attend?",
     name: "school"
 }];
-let employeeNumbers = [{
-    type: "number",
-    message: "How many engineers to you have?",
-    name: "engineers"
-},
-{
-    type: "number",
-    message: "How many interns do you have?",
-    name: "interns"
-}];
-let employeeCount;
-let employees = [];
 
+let employees = [];
+let html;
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -97,34 +89,6 @@ function getManager() {
         employees.push(manager);
         console.log(employees);
         nextEmployee();
-        // prompt(employeeNumbers).then(response => {
-        //     employeeCount = response;
-        //     console.log(employeeCount);
-        //     for (var i = 0; i = employeeCount.engineers; i++) {
-        //         prompt(engineerQuestions).then(response => {
-        //             const engineer = new Engineer(response.name, response.id, response.email, response.github);
-        //             employees.push(engineer);
-        //             console.log(employees);
-        //         })
-        //     }
-        // })
-        // prompt(moreEmployees).then(response => {
-        //     console.log(response);
-        //     if (response.nextEmployee === "Engineer") {
-        //         prompt(engineerQuestions).then(response => {
-        //             const engineer = new Engineer(response.name, response.id, response.email, response.github);
-        //             employees.push(engineer);
-        //             console.log(employees);
-        //         })
-        //     } else if (response.nextEmployee === "Intern") {
-        //         prompt(internQuestions).then(response => {
-        //             const intern = new Intern(response.name, response.id, response.email, response.school);
-        //             employees.push(intern);
-        //         })
-        //     } else {
-
-        //     }
-        // });
     })
 };
 
@@ -134,6 +98,12 @@ function nextEmployee() {
             getEngineer();
         } else if (response.nextEmployee === "Intern") {
             getIntern();
+        } else {
+            html = render(employees);
+            fs.appendFile("./output/team.html", html, (err) => {
+                if (err) throw err;
+                console.log("Your team page was successfully generated!")
+            })
         }
     });
 };
@@ -156,7 +126,7 @@ function getIntern() {
     });
 };
 
-
+module.exports = employees;
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
