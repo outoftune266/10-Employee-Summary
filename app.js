@@ -10,34 +10,154 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let managerQuestions = [{
+    type: "input",
+    message: "Welcome, Manager! What is your name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is your employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is your email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What is your office number?",
+    name: "officeNumber"
+}];
+let moreEmployees = { type: "list", message: "What other employees do you have?", choices: ["Engineer", "Intern", new inquirer.Separator(), "I have no more employees"], name: "nextEmployee" };
+let engineerQuestions = [{
+    type: "input",
+    message: "What is your Engineer's name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is their email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What is their Github username?",
+    name: "github"
+}];
+let internQuestions = [{
+    type: "input",
+    message: "What is your Interns's name?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is their employee ID number?",
+    name: "id"
+},
+{
+    type: "input",
+    message: "What is their email?",
+    name: "email"
+},
+{
+    type: "input",
+    message: "What school do they attend?",
+    name: "school"
+}];
+let employeeNumbers = [{
+    type: "number",
+    message: "How many engineers to you have?",
+    name: "engineers"
+},
+{
+    type: "number",
+    message: "How many interns do you have?",
+    name: "interns"
+}];
+let employeeCount;
+let employees = [];
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-inquirer
-    .prompt([
-        {
-            type: "input",
-            message: "Welcome, Manager! What is your name?",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your employee ID number?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your email?",
-            name: "email"
-        },
-        {
-            type: "input",
-            message: "What is your office number?",
-            name: "officeNumber"
+var prompt = inquirer.createPromptModule();
+
+getManager();
+
+function getManager() {
+    prompt(managerQuestions).then(response => {
+        const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+        employees.push(manager);
+        console.log(employees);
+        nextEmployee();
+        // prompt(employeeNumbers).then(response => {
+        //     employeeCount = response;
+        //     console.log(employeeCount);
+        //     for (var i = 0; i = employeeCount.engineers; i++) {
+        //         prompt(engineerQuestions).then(response => {
+        //             const engineer = new Engineer(response.name, response.id, response.email, response.github);
+        //             employees.push(engineer);
+        //             console.log(employees);
+        //         })
+        //     }
+        // })
+        // prompt(moreEmployees).then(response => {
+        //     console.log(response);
+        //     if (response.nextEmployee === "Engineer") {
+        //         prompt(engineerQuestions).then(response => {
+        //             const engineer = new Engineer(response.name, response.id, response.email, response.github);
+        //             employees.push(engineer);
+        //             console.log(employees);
+        //         })
+        //     } else if (response.nextEmployee === "Intern") {
+        //         prompt(internQuestions).then(response => {
+        //             const intern = new Intern(response.name, response.id, response.email, response.school);
+        //             employees.push(intern);
+        //         })
+        //     } else {
+
+        //     }
+        // });
+    })
+};
+
+function nextEmployee() {
+    prompt(moreEmployees).then(response => {
+        if (response.nextEmployee === "Engineer") {
+            getEngineer();
+        } else if (response.nextEmployee === "Intern") {
+            getIntern();
         }
-    ]).then(response => {
-        console.log(response);
     });
+};
+
+function getEngineer() {
+    prompt(engineerQuestions).then(response => {
+        const engineer = new Engineer(response.name, response.id, response.email, response.github);
+        employees.push(engineer);
+        console.log(employees);
+        nextEmployee();
+    });
+};
+
+function getIntern() {
+    prompt(internQuestions).then(response => {
+        const intern = new Intern(response.name, response.id, response.email, response.school);
+        employees.push(intern);
+        console.log(employees);
+        nextEmployee();
+    });
+};
+
+
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
