@@ -53,6 +53,7 @@ let engineerQuestions = [{
     message: "What is their Github username?",
     name: "github"
 }];
+
 let internQuestions = [{
     type: "input",
     message: "What is your Interns's name?",
