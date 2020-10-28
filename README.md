@@ -4,7 +4,9 @@
 Command Line tool to create a webpage that houses employee information for quick reference
 
 ## Preview
-[Click Here](https://drive.google.com/file/d/16L3tViUGjG_1WzCY6_5zeq0Aa-XwR9pp/view?usp=sharing)
+![Preview of application](./assets/preview.gif)
+
+[See a Demo](https://drive.google.com/file/d/16L3tViUGjG_1WzCY6_5zeq0Aa-XwR9pp/view?usp=sharing)
         
 ## Table of Content
 * [Installation](#installation)
